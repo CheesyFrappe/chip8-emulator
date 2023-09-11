@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "chip8stack.h": "c",
+        "new": "c"
+    }
+}
