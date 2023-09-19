@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "chip8stack.h": "c",
-        "new": "c"
+        "new": "c",
+        "chip8screen.h": "c",
+        "sdl.h": "c"
     }
 }
