@@ -12,12 +12,38 @@ const char keyboard_map[CHIP8_TOTAL_KEYS] = {
 
 int main(int argc, char **argv)
 {
+    if (argc < 2)
+    {
+        printf("You must provide a file to load\n");
+        return -1;
+    }
+
+    const char* filename = argv[1];
+    printf("The filename to load is %s\n", filename);
+
+    FILE* f = fopen(filename, "rb");
+    if(!f)
+    {
+        printf("Failed to open the file\n");
+        return -1;
+    }
+
+    fseek(f, 0, SEEK_END);  // seeks eof to see the size of the file
+    long size = ftell(f);   // return size 
+    fseek(f, 0, SEEK_SET);  // set to beginning to start reading
+
+    char buffer[size];
+    int res = fread(buffer, size, 1, f);
+    if(res != 1)
+    {
+        printf("Failed to read from file\n");
+        return -1;
+    } 
+
     struct chip8 chip8;
     chip8_init(&chip8); // initialize chip8 by setting its value NULL
-
-    //chip8_screen_draw_sprite(&chip8.screen, 10, 62, &chip8.memory.memory[0x05], 5);
-    //chip8.registers.sound_timer = 30;
-
+    chip8_load(&chip8, buffer, size); // loads program to memory
+    
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Window *window = SDL_CreateWindow(
         EMULATOR_WINDOW_TITLE,
@@ -103,6 +129,14 @@ int main(int argc, char **argv)
             Beep(17500, 100 * chip8.registers.sound_timer);
             chip8.registers.sound_timer = 0;
         }
+
+        // char = 8 bits (1 byte)
+        // short = 16 bits (2 byte)
+        unsigned short opcode = chip8_memory_get_short(&chip8.memory, chip8.registers.PC);
+        chip8_exec(&chip8, opcode);
+        chip8.registers.PC += 2;
+        printf("%x\n", opcode);
+
     }
 
 out:
