@@ -68,7 +68,7 @@ Running from the command line:
 ```
 
 ## License
-This project is open source and available under the [MIT License]().
+This project is open source and available under the [MIT License](https://github.com/CheesyFrappe/chip8-emulator/blob/master/LICENSE).
 
 
 
