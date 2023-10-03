@@ -43,6 +43,7 @@ int main(int argc, char **argv)
     struct chip8 chip8;
     chip8_init(&chip8); // initialize chip8 by setting its value NULL
     chip8_load(&chip8, buffer, size); // loads program to memory
+    chip8_keyboard_set_map(&chip8.keyboard, keyboard_map);
     
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Window *window = SDL_CreateWindow(
@@ -69,7 +70,7 @@ int main(int argc, char **argv)
             case SDL_KEYDOWN:
             {
                 char key = event.key.keysym.sym;
-                int vkey = chip8_keyboard_map(keyboard_map, key);
+                int vkey = chip8_keyboard_map(&chip8.keyboard, key);
                 if (vkey != -1)
                 {
                     chip8_keyboard_down(&chip8.keyboard, vkey);
@@ -80,7 +81,7 @@ int main(int argc, char **argv)
             case SDL_KEYUP:
             {
                 char key = event.key.keysym.sym;
-                int vkey = chip8_keyboard_map(keyboard_map, key);
+                int vkey = chip8_keyboard_map(&chip8.keyboard, key);
                 if (vkey != -1)
                 {
                     chip8_keyboard_up(&chip8.keyboard, vkey);
@@ -119,23 +120,23 @@ int main(int argc, char **argv)
 
         if (chip8.registers.delay_timer > 0)
         {
-            Sleep(100);
+            Sleep(1);
             chip8.registers.delay_timer -= 1;
             //printf("Delay\n");
         }
 
         if (chip8.registers.sound_timer > 0)
         {
-            Beep(17500, 100 * chip8.registers.sound_timer);
+            Beep(17500, 10 * chip8.registers.sound_timer);
             chip8.registers.sound_timer = 0;
         }
 
         // char = 8 bits (1 byte)
         // short = 16 bits (2 byte)
         unsigned short opcode = chip8_memory_get_short(&chip8.memory, chip8.registers.PC);
-        chip8_exec(&chip8, opcode);
         chip8.registers.PC += 2;
-        printf("%x\n", opcode);
+        chip8_exec(&chip8, opcode);
+        //printf("%x\n", opcode);
 
     }
 
