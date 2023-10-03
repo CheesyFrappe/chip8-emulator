@@ -11,6 +11,39 @@ Telmac 1800 8-bit microcomputers to make game programming easier. CHIP-8 program
 
 [This reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) explains the virtual machine (instruction, registers, stack, memory, display, and keypad) and the opcodes supported.
 
+## Keyboard Layout
+ The computers which originally used the Chip-8 Language had a 16-key hexadecimal keypad with the following layout:
+<table align="center">
+    <thead>
+        <tr>
+            <td align="center">1</td>
+            <td align="center">2</td>
+            <td align="center">3</td>
+            <td align="center">C</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center">4</td>
+            <td align="center">5</td>
+            <td align="center">6</td>
+            <td align="center">D</td>
+        </tr>
+        <tr>
+            <td align="center">7</td>
+            <td align="center">8</td>
+            <td align="center">9</td>
+            <td align="center">E</td>
+        </tr>
+        <tr>
+            <td align="center">A</td>
+            <td align="center">0</td>
+            <td align="center">B</td>
+            <td align="center">F</td>
+        </tr>
+    </tbody>
+</table>
+
 ## Dependencies
  - [Mingw-64 compiler](https://gcc.gnu.org/)
  - [SDL2 library (64-bit)](https://www.libsdl.org/)
@@ -34,9 +67,9 @@ Running from the command line:
   .\main.exe ./INVADERS
 ```
 
-## Registers
+## License
+This project is open source and available under the [MIT License]().
 
-## Keyboard Layout
 
 
 
